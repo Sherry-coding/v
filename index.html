@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine.exe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg"></div>
+
+  <main class="wrap">
+    <header class="topbar">
+      <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+      <div class="title">valentine@lovebox:~</div>
+    </header>
+
+    <section class="terminal" aria-label="terminal">
+      <div class="terminal-inner">
+        <div class="line faint"># booting Valentine.exe ...</div>
+        <div id="output"></div>
+
+        <div class="prompt">
+          <span class="faint">sherry@lovebox</span><span class="faint">:</span><span class="path">~/for_you</span><span class="faint">$</span>
+          <input id="cmd" type="text" autocomplete="off" spellcheck="false" placeholder="type: help" />
+        </div>
+
+        <div class="buttons">
+          <button id="btnYes">Accept ❤️</button>
+          <button id="btnNo">Reject 🙃</button>
+          <button id="btnSurprise">Run surprise.sh ✨</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span class="faint">Tip:</span> try typing <code>love</code>, <code>date</code>, <code>ping</code>, <code>sudo kiss</code> 🙂
+    </footer>
+  </main>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-title">🎁 Surprise Unlocked</div>
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button id="modalClose">OKAY I’M BLUSHING</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
