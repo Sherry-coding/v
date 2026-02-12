@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meowentine 💕</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --pink:#ff2f86;
-  --soft:#f8cddd; /* 柔和纯粉背景 */
+  --soft:#f8cddd;
   --shadow:0 18px 35px rgba(0,0,0,0.16);
 }
 
@@ -18,8 +18,8 @@
 
 body{
   margin:0;
-  background:var(--soft);   /* ✅ 纯色背景 */
-  font-family:"Modak", sans-serif;
+  background:var(--soft);
+  font-family:"Walter Turncoat", cursive;
   color:var(--pink);
   overflow-x:hidden;
   overflow-y:auto;
@@ -33,16 +33,18 @@ body{
 }
 
 h1{
-  font-size:clamp(40px,5.5vw,64px);
-  margin-bottom:12px;
-  color:#ff4d9d;   /* 稍微浅一点 */
-  letter-spacing:1.8px;
+  font-size: clamp(48px, 6vw, 76px);
+  margin: 0 0 14px;
+  color: var(--pink);
+  letter-spacing: 1.2px;
+  line-height: 1.1;
 }
 
 .sub{
-  font-size:20px;
-  margin-bottom:20px;
+  font-size: 22px;
+  letter-spacing: 0.8px;
   color:#ff5aa6;
+  margin: 0 0 20px;
 }
 
 .btns{
@@ -61,13 +63,8 @@ h1{
   filter: drop-shadow(0 16px 22px rgba(0,0,0,0.15));
 }
 
-.paw-btn:hover{
-  transform:scale(1.05);
-}
-
-.paw-btn:active{
-  transform:scale(0.96);
-}
+.paw-btn:hover{ transform:scale(1.05); }
+.paw-btn:active{ transform:scale(0.96); }
 
 .paw-img{
   width:100%;
@@ -81,8 +78,10 @@ h1{
   transform:translate(-50%,-50%);
   color:white;
   font-size:18px;
+  letter-spacing: 1px;
   text-shadow:0 4px 10px rgba(0,0,0,0.3);
   pointer-events:none;
+  white-space: nowrap;
 }
 
 #result{
@@ -99,10 +98,12 @@ img.meme-img{
 
 .message{
   margin-top:15px;
-  font-size:22px;
+  font-size:24px;
+  letter-spacing: 0.8px;
   color:var(--pink);
 }
 
+/* falling paws + hearts */
 .paw{
   position:fixed;
   top:-40px;
@@ -113,10 +114,7 @@ img.meme-img{
 }
 
 @keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(260deg);
-    opacity:0.05;
-  }
+  to{ transform:translateY(110vh) rotate(260deg); opacity:0.05; }
 }
 
 .heart{
@@ -132,38 +130,33 @@ img.meme-img{
 }
 
 #noPaw{position:relative;}
-
 </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <h1>Will you be my Meowentine? 🐱💘</h1>
+    <div class="sub">Choose wisely… the cats are watching 👀</div>
 
-<h1>Will you be my Meowentine? 🐱💘</h1>
-<div class="sub">Choose wisely… the cats are watching 👀</div>
+    <div class="btns" id="btnArea">
+      <div class="paw-btn" id="noPaw" onclick="reject()">
+        <img class="paw-img" src="paw.png" alt="paw">
+        <div class="label">NO 🙀</div>
+      </div>
 
-<div class="btns" id="btnArea">
+      <div class="paw-btn" id="maybePaw" onclick="maybe()">
+        <img class="paw-img" src="paw.png" alt="paw">
+        <div class="label">THINK 🤔</div>
+      </div>
 
-  <div class="paw-btn" id="noPaw" onclick="reject()">
-    <img class="paw-img" src="paw.png">
-    <div class="label">NO 🙀</div>
+      <div class="paw-btn" id="yesPaw" onclick="accept()">
+        <img class="paw-img" src="paw.png" alt="paw">
+        <div class="label">YES 😻</div>
+      </div>
+    </div>
+
+    <div id="result"></div>
   </div>
-
-  <div class="paw-btn" id="maybePaw" onclick="maybe()">
-    <img class="paw-img" src="paw.png">
-    <div class="label">THINK 🤔</div>
-  </div>
-
-  <div class="paw-btn" id="yesPaw" onclick="accept()">
-    <img class="paw-img" src="paw.png">
-    <div class="label">YES 😻</div>
-  </div>
-
-</div>
-
-<div id="result"></div>
-
-</div>
 
 <script>
 const result=document.getElementById("result");
@@ -178,7 +171,7 @@ setInterval(spawnPaw,900);
 
 function show(img,text){
   result.innerHTML=`
-    <img class="meme-img" src="${img}">
+    <img class="meme-img" src="${img}" alt="meme">
     <div class="message">${text}</div>
   `;
 }
@@ -244,4 +237,3 @@ function popHearts(){
 
 </body>
 </html>
-
