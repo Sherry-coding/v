@@ -18,18 +18,24 @@
     }
     *{ box-sizing:border-box; }
 
+    html, body{
+      height:100%;
+    }
+
+    /* ✅ allow scrolling */
     body{
       margin:0;
       min-height:100vh;
-      overflow:hidden;
+      overflow-x:hidden;
+      overflow-y:auto;
 
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:center;
+      justify-content:flex-start;   /* ✅ top-down layout */
       text-align:center;
 
-      padding: 26px 16px 28px;
+      padding: 26px 16px 48px;
 
       background:
         radial-gradient(900px 520px at 75% 20%, rgba(255, 120, 200, 0.22), transparent 60%),
@@ -40,8 +46,18 @@
       color: var(--pink);
     }
 
+    /* a centered content column */
+    .wrap{
+      width:min(900px, 96vw);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding-top: 18px;
+    }
+
     h1{
-      margin: 0 0 10px;
+      margin: 10px 0 10px;
       font-size: clamp(44px, 6vw, 72px);
       letter-spacing: 1px;
       color: var(--pink);
@@ -70,24 +86,24 @@
       box-shadow: 0 10px 22px rgba(0,0,0,0.08);
       color: rgba(255, 47, 134, 0.72);
       font-size: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     /* Paw buttons row */
     .btns{
       position: relative;
-      width: min(820px, 96vw);
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 22px;
       flex-wrap: wrap;
-      padding: 8px 0 2px;
+      padding: 8px 0 6px;
     }
 
     .paw-btn{
       position: relative;
-      width: 130px;           /* smaller than before */
+      width: 130px;
       max-width: 38vw;
       cursor: pointer;
       user-select: none;
@@ -109,8 +125,6 @@
       width: 100%;
       height: auto;
       display: block;
-      /* If your paw.png is truly transparent, it will look perfect.
-         If you still see a checkerboard, the file itself is not transparent. */
     }
 
     .label{
@@ -119,7 +133,7 @@
       top: 56%;
       transform: translate(-50%, -50%);
       color: white;
-      font-size: 18px;     /* slightly smaller */
+      font-size: 18px;
       letter-spacing: 0.5px;
       text-shadow: 0 4px 10px rgba(0,0,0,0.28);
       pointer-events: none;
@@ -135,14 +149,17 @@
       align-items:center;
       justify-content:center;
       min-height: 60px;
-      width: min(820px, 96vw);
+      width: 100%;
+      padding-bottom: 18px;
     }
 
+    /* ✅ always fit meme on screen */
     img.meme-img{
-      width: min(520px, 92vw);  /* cap width */
-      max-height: 45vh;         /* KEY: make meme fit screen */
+      width: min(560px, 92vw);
+      max-height: min(52vh, 520px); /* ✅ ensures scroll still manageable */
       height: auto;
-      object-fit: contain;      /* keep full meme visible */
+      object-fit: contain;
+
       border-radius: 22px;
       margin-top: 12px;
       box-shadow: var(--shadow);
@@ -159,7 +176,16 @@
       padding: 0 6px;
     }
 
-    /* Background paw rain */
+    .footer-note{
+      margin-top: 10px;
+      font-size: 14px;
+      color: rgba(255, 47, 134, 0.60);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+      letter-spacing: 0.3px;
+      padding-bottom: 10px;
+    }
+
+    /* Background paw rain (fixed so it doesn't affect layout/scroll) */
     .paw{
       position: fixed;
       top: -40px;
@@ -167,6 +193,7 @@
       opacity: 0.85;
       animation: fall linear forwards;
       pointer-events: none;
+      z-index: 0;
       filter: drop-shadow(0 6px 10px rgba(255, 47, 134, 0.12));
     }
     @keyframes fall{
@@ -176,12 +203,13 @@
       }
     }
 
-    /* Hearts on YES */
+    /* Hearts on YES (also fixed) */
     .heart{
       position: fixed;
       font-size: 18px;
       pointer-events: none;
       animation: pop 900ms ease-out forwards;
+      z-index: 0;
       filter: drop-shadow(0 8px 14px rgba(255, 47, 134, 0.20));
     }
     @keyframes pop{
@@ -189,47 +217,49 @@
       100%{ transform: translateY(-140px) scale(1.7); opacity: 0; }
     }
 
-    /* NO movable */
-    #noPaw{
-      position: relative;
-      will-change: transform;
-    }
+    /* keep content above the falling paws */
+    .wrap, #result{ position:relative; z-index: 1; }
 
-    /* Small screens */
+    /* NO movable */
+    #noPaw{ position: relative; will-change: transform; }
+
     @media (max-width: 520px){
       .paw-btn{ width: 118px; }
       .label{ font-size: 16px; }
-      img.meme-img{ max-height: 40vh; }
+      img.meme-img{ max-height: min(48vh, 420px); }
     }
   </style>
 </head>
 
 <body>
-  <h1>Will you be my Meowentine? 🐱💘</h1>
-  <div class="sub">Choose wisely… the cats are watching 👀</div>
-  <div class="chip">🐾 click a paw — NO gets shy if you press it 😼</div>
+  <div class="wrap">
+    <h1>Will you be my Meowentine? 🐱💘</h1>
+    <div class="sub">Choose wisely… the cats are watching 👀</div>
+    <div class="chip">🐾 click a paw — NO gets shy if you press it 😼</div>
 
-  <div class="btns" id="btnArea">
-    <!-- NO -> cat1 -->
-    <div class="paw-btn" id="noPaw" onclick="reject()" aria-label="No">
-      <img class="paw-img" src="paw.png" alt="paw button">
-      <div class="label">NO 🙀</div>
+    <div class="btns" id="btnArea">
+      <div class="paw-btn" id="noPaw" onclick="reject()" aria-label="No">
+        <img class="paw-img" src="paw.png" alt="paw button">
+        <div class="label">NO 🙀</div>
+      </div>
+
+      <div class="paw-btn" id="maybePaw" onclick="maybe()" aria-label="Think">
+        <img class="paw-img" src="paw.png" alt="paw button">
+        <div class="label">THINK 🤔</div>
+      </div>
+
+      <div class="paw-btn" id="yesPaw" onclick="accept()" aria-label="Yes">
+        <img class="paw-img" src="paw.png" alt="paw button">
+        <div class="label">YES 😻</div>
+      </div>
     </div>
 
-    <!-- THINK -> cat2 -->
-    <div class="paw-btn" id="maybePaw" onclick="maybe()" aria-label="Think">
-      <img class="paw-img" src="paw.png" alt="paw button">
-      <div class="label">THINK 🤔</div>
+    <div class="footer-note">
+      (Scroll works now!) Files: paw.png, cat1.jpg, cat2.jpg, cat3.jpg
     </div>
 
-    <!-- YES -> cat3 -->
-    <div class="paw-btn" id="yesPaw" onclick="accept()" aria-label="Yes">
-      <img class="paw-img" src="paw.png" alt="paw button">
-      <div class="label">YES 😻</div>
-    </div>
+    <div id="result"></div>
   </div>
-
-  <div id="result"></div>
 
   <script>
     const result = document.getElementById("result");
@@ -248,8 +278,8 @@
         <img class="meme-img" src="${img}" alt="cat meme">
         <div class="message">${text}</div>
       `;
-      // ensure result is visible without covering meme
-      result.scrollIntoView({behavior:"smooth", block:"nearest"});
+      // bring result into view but allow user to scroll freely
+      result.scrollIntoView({behavior:"smooth", block:"start"});
     }
 
     function reject(){
@@ -261,7 +291,6 @@
           : "You rejected me?! This cat is judging you 😾"
       );
 
-      // Move away + shrink
       const rect = btnArea.getBoundingClientRect();
       const maxX = Math.max(70, rect.width / 2 - 110);
       const maxY = 95;
@@ -282,7 +311,6 @@
 
     function maybe(){
       show("cat2.jpg", "Take your time… but this kitty is already in love 💕");
-      maybePaw.style.transform = "translateX(0)"; // reset if needed
       maybePaw.animate(
         [{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }],
         { duration: 220, iterations: 2 }
@@ -320,5 +348,8 @@
       }
     }
   </script>
+</body>
+</html>
+
 </body>
 </html>
