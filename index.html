@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meowentine 💕</title>
 
-  <!-- Modak (all text uses this) -->
+  <!-- Modak -->
   <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --pink:#ff2f86;
-      --pinkSoft:#ff78bd;
       --bg1:#ffe3f2;
       --bg2:#fff2f9;
       --bg3:#fff9fc;
       --shadow: 0 18px 35px rgba(0,0,0,0.16);
     }
-
     *{ box-sizing:border-box; }
 
     body{
@@ -31,7 +29,7 @@
       justify-content:center;
       text-align:center;
 
-      padding: 28px 16px 36px;
+      padding: 26px 16px 28px;
 
       background:
         radial-gradient(900px 520px at 75% 20%, rgba(255, 120, 200, 0.22), transparent 60%),
@@ -46,7 +44,6 @@
       margin: 0 0 10px;
       font-size: clamp(44px, 6vw, 72px);
       letter-spacing: 1px;
-
       color: var(--pink);
       text-shadow:
         0 3px 0 rgba(255,255,255,0.95),
@@ -55,7 +52,7 @@
     }
 
     .sub{
-      margin: 0 0 16px;
+      margin: 0 0 14px;
       font-size: clamp(16px, 2.3vw, 22px);
       color: rgba(255, 47, 134, 0.75);
       text-shadow: 0 2px 0 rgba(255,255,255,0.65);
@@ -73,40 +70,37 @@
       box-shadow: 0 10px 22px rgba(0,0,0,0.08);
       color: rgba(255, 47, 134, 0.72);
       font-size: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    /* Buttons area */
+    /* Paw buttons row */
     .btns{
       position: relative;
-      width: min(860px, 96vw);
+      width: min(820px, 96vw);
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 26px;
+      gap: 22px;
       flex-wrap: wrap;
-      padding: 10px 0;
+      padding: 8px 0 2px;
     }
 
-    /* Paw image button */
     .paw-btn{
       position: relative;
-      width: 160px;
-      max-width: 40vw;
+      width: 130px;           /* smaller than before */
+      max-width: 38vw;
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
 
       transition: transform .18s ease, filter .18s ease;
-      filter: drop-shadow(0 16px 22px rgba(0,0,0,0.16));
+      filter: drop-shadow(0 16px 22px rgba(0,0,0,0.14));
       transform: translateZ(0);
     }
-
     .paw-btn:hover{
       transform: translateY(-2px) scale(1.05);
-      filter: drop-shadow(0 18px 24px rgba(0,0,0,0.18));
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,0.16));
     }
-
     .paw-btn:active{
       transform: translateY(3px) scale(0.97);
     }
@@ -115,65 +109,54 @@
       width: 100%;
       height: auto;
       display: block;
+      /* If your paw.png is truly transparent, it will look perfect.
+         If you still see a checkerboard, the file itself is not transparent. */
     }
 
     .label{
       position: absolute;
       left: 50%;
-      top: 55%;
+      top: 56%;
       transform: translate(-50%, -50%);
       color: white;
-      font-size: 20px;
+      font-size: 18px;     /* slightly smaller */
       letter-spacing: 0.5px;
       text-shadow: 0 4px 10px rgba(0,0,0,0.28);
       pointer-events: none;
-      -webkit-text-stroke: 1px rgba(0,0,0,0.10);
       white-space: nowrap;
+      -webkit-text-stroke: 1px rgba(0,0,0,0.10);
     }
 
-    /* Result */
+    /* Result area */
     #result{
-      margin-top: 18px;
+      margin-top: 14px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      min-height: 90px;
+      min-height: 60px;
+      width: min(820px, 96vw);
     }
 
     img.meme-img{
-      width: min(360px, 88vw);
-      border-radius: 26px;
-      margin-top: 14px;
+      width: min(520px, 92vw);  /* cap width */
+      max-height: 45vh;         /* KEY: make meme fit screen */
+      height: auto;
+      object-fit: contain;      /* keep full meme visible */
+      border-radius: 22px;
+      margin-top: 12px;
       box-shadow: var(--shadow);
       border: 4px solid rgba(255,255,255,0.78);
-      background: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.35);
     }
 
     .message{
-      margin-top: 14px;
-      font-size: clamp(18px, 2.6vw, 26px);
+      margin-top: 12px;
+      font-size: clamp(18px, 2.3vw, 24px);
       color: var(--pink);
       text-shadow: 0 2px 0 rgba(255,255,255,0.7);
-      letter-spacing: 0.4px;
-    }
-
-    .tiny-note{
-      margin-top: 10px;
-      font-size: 14px;
-      color: rgba(255, 47, 134, 0.60);
-      text-shadow: 0 1px 0 rgba(255,255,255,0.55);
-      letter-spacing: 0.3px;
-    }
-
-    /* Maybe shake */
-    .shake{ animation: shake .25s ease-in-out 0s 2; }
-    @keyframes shake{
-      0%{ transform: translateX(0); }
-      25%{ transform: translateX(-6px); }
-      50%{ transform: translateX(6px); }
-      75%{ transform: translateX(-6px); }
-      100%{ transform: translateX(0); }
+      letter-spacing: 0.35px;
+      padding: 0 6px;
     }
 
     /* Background paw rain */
@@ -206,10 +189,17 @@
       100%{ transform: translateY(-140px) scale(1.7); opacity: 0; }
     }
 
-    /* Make NO movable */
+    /* NO movable */
     #noPaw{
       position: relative;
       will-change: transform;
+    }
+
+    /* Small screens */
+    @media (max-width: 520px){
+      .paw-btn{ width: 118px; }
+      .label{ font-size: 16px; }
+      img.meme-img{ max-height: 40vh; }
     }
   </style>
 </head>
@@ -239,14 +229,9 @@
     </div>
   </div>
 
-  <div class="tiny-note">Images needed in the same folder: paw.png, cat1.jpg, cat2.jpg, cat3.jpg</div>
-
   <div id="result"></div>
 
   <script>
-    // Files expected in repo root:
-    // paw.png, cat1.jpg (reject), cat2.jpg (think), cat3.jpg (accept)
-
     const result = document.getElementById("result");
     const noPaw = document.getElementById("noPaw");
     const maybePaw = document.getElementById("maybePaw");
@@ -263,6 +248,8 @@
         <img class="meme-img" src="${img}" alt="cat meme">
         <div class="message">${text}</div>
       `;
+      // ensure result is visible without covering meme
+      result.scrollIntoView({behavior:"smooth", block:"nearest"});
     }
 
     function reject(){
@@ -274,37 +261,38 @@
           : "You rejected me?! This cat is judging you 😾"
       );
 
-      // Move away + shrink (keeps it centered-ish but slippery)
+      // Move away + shrink
       const rect = btnArea.getBoundingClientRect();
-      const maxX = Math.max(80, rect.width / 2 - 100);
-      const maxY = 110;
+      const maxX = Math.max(70, rect.width / 2 - 110);
+      const maxY = 95;
 
       const x = (Math.random()*2 - 1) * maxX;
       const y = (Math.random()*2 - 1) * maxY;
 
-      const scale = Math.max(0.60, 1 - rejectCount * 0.10);
+      const scale = Math.max(0.58, 1 - rejectCount * 0.10);
       noPaw.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
 
-      // After 5 rejects, disable NO and boost YES
       if(rejectCount >= 5){
         noPaw.style.opacity = 0.65;
         noPaw.style.pointerEvents = "none";
         show("cat1.jpg", "Okay okay… I’ll stop asking 😿 But the YES paw is right there 😽👉");
-        yesPaw.style.transform = "scale(1.18)";
+        yesPaw.style.transform = "scale(1.15)";
       }
     }
 
     function maybe(){
       show("cat2.jpg", "Take your time… but this kitty is already in love 💕");
-      maybePaw.classList.remove("shake");
-      void maybePaw.offsetWidth; // restart animation
-      maybePaw.classList.add("shake");
+      maybePaw.style.transform = "translateX(0)"; // reset if needed
+      maybePaw.animate(
+        [{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }],
+        { duration: 220, iterations: 2 }
+      );
     }
 
     function accept(){
       show("cat3.jpg", "YAYYY 😻💕 Lifetime Cuddle Subscription Activated™");
       popHearts();
-      yesPaw.style.transform = "scale(1.22)";
+      yesPaw.style.transform = "scale(1.18)";
     }
 
     function spawnPaw(){
@@ -320,12 +308,12 @@
 
     function popHearts(){
       const hearts = ["💖","💗","💘","💕","💞"];
-      for(let i=0;i<28;i++){
+      for(let i=0;i<26;i++){
         const h = document.createElement("div");
         h.className = "heart";
         h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
         h.style.left = (10 + Math.random()*80) + "vw";
-        h.style.top = (62 + Math.random()*28) + "vh";
+        h.style.top = (60 + Math.random()*28) + "vh";
         h.style.animationDelay = (Math.random()*120) + "ms";
         document.body.appendChild(h);
         setTimeout(()=>h.remove(), 1200);
