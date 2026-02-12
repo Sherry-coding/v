@@ -8,126 +8,228 @@
 <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Bubblegum+Sans&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --pink:#ff4da6;
-  --pink2:#ff8ac9;
-}
+  :root{
+    --pink:#ff2f86;
+    --pink2:#ff78bd;
+    --pink3:#ffb3dd;
+    --bg1:#ffe0f1;
+    --bg2:#fff0f8;
+    --bg3:#fff9fc;
+    --shadow: 0 18px 35px rgba(0,0,0,0.16);
+  }
+  *{box-sizing:border-box;}
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-family:'Bubblegum Sans', cursive;
-  background:linear-gradient(135deg,#ffe3f2,#fff2f9,#fff8fc);
-  overflow:hidden;
-}
+  body{
+    margin:0;
+    min-height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:28px 16px 36px;
 
-h1{
-  font-family:'Chewy', cursive;
-  font-size:55px;
-  color:var(--pink);
-  margin-bottom:10px;
-  text-shadow:0 4px 0 white;
-}
+    background:
+      radial-gradient(900px 500px at 75% 20%, rgba(255, 120, 200, 0.22), transparent 60%),
+      radial-gradient(800px 500px at 20% 80%, rgba(255, 200, 230, 0.28), transparent 55%),
+      linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
 
-.sub{
-  color:#ff6bb5;
-  margin-bottom:30px;
-  font-size:18px;
-}
+    font-family:"Bubblegum Sans", system-ui, -apple-system, sans-serif;
+    color: var(--pink);
+  }
 
-.btns{
-  display:flex;
-  gap:30px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
+  h1{
+    margin:0 0 10px;
+    font-family:"Chewy", cursive;
+    font-size: clamp(40px, 5vw, 58px);
+    letter-spacing: 1px;
+    color: var(--pink);
+    text-shadow:
+      0 3px 0 rgba(255,255,255,0.9),
+      0 12px 24px rgba(255, 47, 134, 0.22);
+    -webkit-text-stroke: 1px rgba(255,255,255,0.75);
+  }
 
-/* PAW BUTTON */
-.paw{
-  position:relative;
-  width:120px;
-  height:110px;
-  background:var(--pink2);
-  border-radius:50%;
-  cursor:pointer;
-  box-shadow:0 15px 30px rgba(0,0,0,0.15);
-  transition:.2s;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-size:16px;
-  text-align:center;
-}
+  .sub{
+    font-size: clamp(16px, 2.2vw, 20px);
+    color: rgba(255, 47, 134, 0.75);
+    margin: 0 0 18px;
+    text-shadow: 0 2px 0 rgba(255,255,255,0.6);
+  }
 
-.paw:hover{
-  transform:scale(1.1);
-}
+  .btns{
+    position:relative;
+    width:min(760px, 96vw);
+    display:flex;
+    gap:26px;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    padding: 10px 0;
+  }
 
-/* toe beans */
-.paw::before,
-.paw::after{
-  content:"";
-  position:absolute;
-  width:30px;
-  height:35px;
-  background:var(--pink2);
-  border-radius:50%;
-  top:-15px;
-}
+  /* ===== PAW BUTTON (true paw silhouette) ===== */
+  .paw-btn{
+    position:relative;
+    width:140px;
+    height:130px;
+    cursor:pointer;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
 
-.paw::before{
-  left:15px;
-}
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:18px;
+    letter-spacing:0.2px;
 
-.paw::after{
-  right:15px;
-}
+    filter: drop-shadow(0 16px 22px rgba(0,0,0,0.18));
+    transform: translateZ(0);
+    transition: transform .18s ease;
+  }
 
-.toe{
-  position:absolute;
-  width:30px;
-  height:35px;
-  background:var(--pink2);
-  border-radius:50%;
-  top:-25px;
-  left:45px;
-}
+  /* squish on hover/press */
+  .paw-btn:hover{ transform: translateY(-2px) scale(1.04); }
+  .paw-btn:active{ transform: translateY(2px) scale(0.97); }
 
-#result{
-  margin-top:30px;
-}
+  /* main pad */
+  .pad{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:92px;
+    height:74px;
+    background: linear-gradient(180deg, var(--pink2), var(--pink));
+    border-radius: 55% 55% 45% 45%;
+    box-shadow: inset 0 8px 0 rgba(255,255,255,0.22);
+  }
 
-img{
-  width:300px;
-  max-width:85vw;
-  border-radius:25px;
-  margin-top:20px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.2);
-}
+  /* toe beans */
+  .toe{
+    position:absolute;
+    width:30px;
+    height:34px;
+    background: linear-gradient(180deg, var(--pink3), var(--pink2));
+    border-radius: 999px;
+    box-shadow: inset 0 7px 0 rgba(255,255,255,0.22);
+  }
 
-.message{
-  font-size:22px;
-  margin-top:20px;
-  color:var(--pink);
-}
+  /* position toes */
+  .t1{ top:12px; left:26px; transform:rotate(-10deg); }
+  .t2{ top:2px;  left:56px; transform:rotate(0deg); }
+  .t3{ top:12px; right:26px; transform:rotate(10deg); }
+  .t4{ top:28px; left:8px;  transform:rotate(-18deg) scale(0.92); opacity:0.98; }
+  .t5{ top:28px; right:8px; transform:rotate(18deg) scale(0.92); opacity:0.98; }
 
-.pawRain{
-  position:fixed;
-  top:-30px;
-  font-size:20px;
-  animation:fall linear forwards;
-  pointer-events:none;
-}
+  /* label sits above pad so it reads clearly */
+  .label{
+    position:relative;
+    z-index:3;
+    padding:10px 12px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.22);
+  }
 
-@keyframes fall{
-  to{ transform: translateY(110vh) rotate(360deg); opacity:0;}
-}
+  /* subtle glossy highlight */
+  .shine{
+    position:absolute;
+    width:46px;
+    height:26px;
+    left:50%;
+    bottom:28px;
+    transform:translateX(-50%) rotate(-10deg);
+    border-radius:999px;
+    background: rgba(255,255,255,0.20);
+    filter: blur(0.2px);
+    z-index:2;
+  }
+
+  /* color variants */
+  .no   .pad{ background: linear-gradient(180deg,#ff86a7,#ff4f8a); }
+  .no   .toe{ background: linear-gradient(180deg,#ffc2d4,#ff86a7); }
+
+  .maybe .pad{ background: linear-gradient(180deg,#ffb0de,#ff7fca); }
+  .maybe .toe{ background: linear-gradient(180deg,#ffe0f2,#ffb0de); }
+
+  .yes  .pad{ background: linear-gradient(180deg,#ff63b2,#ff2f86); }
+  .yes  .toe{ background: linear-gradient(180deg,#ffd1ea,#ff63b2); }
+
+  /* result */
+  #result{
+    margin-top: 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    min-height: 80px;
+  }
+
+  img{
+    width: min(340px, 86vw);
+    border-radius: 26px;
+    margin-top: 14px;
+    box-shadow: var(--shadow);
+    border: 4px solid rgba(255,255,255,0.75);
+  }
+
+  .message{
+    margin-top: 16px;
+    font-size: clamp(18px, 2.5vw, 24px);
+    color: var(--pink);
+    text-shadow: 0 2px 0 rgba(255,255,255,0.7);
+  }
+
+  .tiny-note{
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgba(255, 47, 134, 0.65);
+  }
+
+  /* maybe shake */
+  .shake{ animation: shake .25s ease-in-out 0s 2; }
+  @keyframes shake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    50%{transform:translateX(6px)}
+    75%{transform:translateX(-6px)}
+    100%{transform:translateX(0)}
+  }
+
+  /* floating paws background */
+  .paw{
+    position:fixed;
+    top:-40px;
+    font-size:22px;
+    opacity:0.85;
+    animation: fall linear forwards;
+    pointer-events:none;
+    filter: drop-shadow(0 6px 10px rgba(255, 47, 134, 0.14));
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(260deg); opacity:0.05; }
+  }
+
+  /* hearts */
+  .heart{
+    position:fixed;
+    font-size:18px;
+    pointer-events:none;
+    animation: pop 900ms ease-out forwards;
+    filter: drop-shadow(0 8px 14px rgba(255, 47, 134, 0.20));
+  }
+  @keyframes pop{
+    0%{transform:translateY(0) scale(1); opacity:1}
+    100%{transform:translateY(-140px) scale(1.7); opacity:0}
+  }
+
+  /* make NO movable */
+  #noPaw{
+    position:relative;
+    will-change: transform;
+  }
 </style>
 </head>
 
@@ -136,60 +238,121 @@ img{
 <h1>Will you be my Meowentine? 🐱💘</h1>
 <div class="sub">Choose wisely… the cats are watching 👀</div>
 
-<div class="btns">
-
-  <div class="paw" onclick="reject()">
-    NO 🙀
-    <div class="toe"></div>
+<div class="btns" id="btnArea">
+  <!-- NO -->
+  <div class="paw-btn no" id="noPaw" onclick="reject()">
+    <div class="toe t1"></div><div class="toe t2"></div><div class="toe t3"></div>
+    <div class="toe t4"></div><div class="toe t5"></div>
+    <div class="pad"></div><div class="shine"></div>
+    <div class="label">NO 🙀</div>
   </div>
 
-  <div class="paw" onclick="maybe()">
-    THINK 🤔
-    <div class="toe"></div>
+  <!-- MAYBE -->
+  <div class="paw-btn maybe" id="maybePaw" onclick="maybe()">
+    <div class="toe t1"></div><div class="toe t2"></div><div class="toe t3"></div>
+    <div class="toe t4"></div><div class="toe t5"></div>
+    <div class="pad"></div><div class="shine"></div>
+    <div class="label">THINK 🤔</div>
   </div>
 
-  <div class="paw" onclick="accept()">
-    YES 😻
-    <div class="toe"></div>
+  <!-- YES -->
+  <div class="paw-btn yes" id="yesPaw" onclick="accept()">
+    <div class="toe t1"></div><div class="toe t2"></div><div class="toe t3"></div>
+    <div class="toe t4"></div><div class="toe t5"></div>
+    <div class="pad"></div><div class="shine"></div>
+    <div class="label">YES 😻</div>
   </div>
-
 </div>
+
+<div class="tiny-note">Tip: rejecting a few times makes the NO paw… skittish 😼</div>
 
 <div id="result"></div>
 
 <script>
+  // Images: cat1.jpg (reject) / cat2.jpg (maybe) / cat3.jpg (accept)
 
-setInterval(()=>{
-  let paw=document.createElement("div");
-  paw.className="pawRain";
-  paw.textContent="🐾";
-  paw.style.left=Math.random()*100+"vw";
-  paw.style.animationDuration=3+Math.random()*3+"s";
-  document.body.appendChild(paw);
-  setTimeout(()=>paw.remove(),6000);
-},800);
+  const result = document.getElementById("result");
+  const noPaw = document.getElementById("noPaw");
+  const maybePaw = document.getElementById("maybePaw");
+  const yesPaw = document.getElementById("yesPaw");
+  const btnArea = document.getElementById("btnArea");
 
-function reject(){
-  document.getElementById("result").innerHTML=`
-    <img src="cat1.jpg">
-    <div class="message">You rejected me?! This cat is judging you 😾</div>
-  `;
-}
+  let rejectCount = 0;
 
-function maybe(){
-  document.getElementById("result").innerHTML=`
-    <img src="cat2.jpg">
-    <div class="message">Take your time… but this kitty is already in love 💕</div>
-  `;
-}
+  // floating paw rain
+  setInterval(()=>spawnPaw(), 850);
 
-function accept(){
-  document.getElementById("result").innerHTML=`
-    <img src="cat3.jpg">
-    <div class="message">YAYYY 😻💕 Lifetime Cuddle Subscription Activated™</div>
-  `;
-}
+  function show(img, text){
+    result.innerHTML = `
+      <img src="${img}" alt="cat meme">
+      <div class="message">${text}</div>
+    `;
+  }
 
+  function reject(){
+    rejectCount += 1;
+
+    show("cat1.jpg", rejectCount >= 3
+      ? "Still rejecting?! This cat is… disappointed 😾"
+      : "You rejected me?! This cat is judging you 😾");
+
+    // move away + shrink
+    const rect = btnArea.getBoundingClientRect();
+    const maxX = rect.width / 2 - 60;
+    const maxY = 90;
+
+    const x = (Math.random()*2 - 1) * maxX;
+    const y = (Math.random()*2 - 1) * maxY;
+
+    const scale = Math.max(0.65, 1 - rejectCount*0.10);
+    noPaw.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+
+    // after 5 rejects, disable NO and highlight YES
+    if(rejectCount >= 5){
+      noPaw.style.opacity = 0.65;
+      noPaw.style.pointerEvents = "none";
+      show("cat1.jpg", "Okay okay… I’ll stop asking 😿 But the YES paw is right there 😽👉");
+      yesPaw.style.transform = "scale(1.15)";
+    }
+  }
+
+  function maybe(){
+    show("cat2.jpg", "Take your time… but this kitty is already in love 💕");
+    maybePaw.classList.remove("shake");
+    void maybePaw.offsetWidth;
+    maybePaw.classList.add("shake");
+  }
+
+  function accept(){
+    show("cat3.jpg", "YAYYY 😻💕 Lifetime Cuddle Subscription Activated™");
+    popHearts();
+    yesPaw.style.transform = "scale(1.18)";
+  }
+
+  function spawnPaw(){
+    const paw = document.createElement("div");
+    paw.className = "paw";
+    paw.textContent = "🐾";
+    paw.style.left = Math.random()*100 + "vw";
+    paw.style.animationDuration = (4 + Math.random()*4) + "s";
+    paw.style.opacity = (0.25 + Math.random()*0.6).toFixed(2);
+    document.body.appendChild(paw);
+    setTimeout(()=>paw.remove(), 9000);
+  }
+
+  function popHearts(){
+    const hearts = ["💖","💗","💘","💕","💞"];
+    for(let i=0;i<28;i++){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      h.style.left = (10 + Math.random()*80) + "vw";
+      h.style.top = (62 + Math.random()*28) + "vh";
+      h.style.animationDelay = (Math.random()*120) + "ms";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 1200);
+    }
+  }
 </script>
 
 </body>
