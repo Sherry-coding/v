@@ -1,53 +1,229 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Valentine.exe</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meowentine 💕</title>
+
+<style>
+  :root{
+    --pink:#ff4da6;
+    --pink2:#ff99cc;
+    --bg1:#ffd6ec;
+    --bg2:#ffeaf6;
+    --bg3:#fff5fa;
+  }
+  body{
+    margin:0;
+    font-family: "Comic Sans MS", cursive;
+    background: linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+    text-align:center;
+    min-height:100vh;
+    overflow:hidden;
+  }
+  h1{
+    margin-top:70px;
+    font-size:38px;
+    color:var(--pink);
+    padding:0 16px;
+  }
+  .sub{
+    color:#ff66a3;
+    font-size:18px;
+    margin-top:10px;
+    padding:0 16px;
+  }
+  .btns{
+    margin-top:26px;
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    padding:0 16px;
+  }
+  button{
+    padding:14px 26px;
+    font-size:18px;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    background:var(--pink2);
+    color:white;
+    transition: transform .15s ease, filter .15s ease;
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  }
+  button:hover{ transform:scale(1.06); filter:brightness(1.05); }
+  button:active{ transform:scale(0.98); }
+
+  #noBtn{
+    position:relative;
+    background:#ff7aa2;
+  }
+  #maybeBtn{
+    background:#ff93d1;
+  }
+  #yesBtn{
+    background:#ff4da6;
+  }
+
+  #result{
+    margin-top:26px;
+    padding:0 16px 40px;
+  }
+  img{
+    width:min(320px, 86vw);
+    border-radius:22px;
+    margin-top:18px;
+    box-shadow:0 14px 30px rgba(0,0,0,0.18);
+    border:4px solid rgba(255,255,255,0.55);
+  }
+  .message{
+    font-size:22px;
+    margin-top:18px;
+    color:#ff4da6;
+  }
+
+  /* maybe shake */
+  .shake{
+    animation: shake .25s ease-in-out 0s 2;
+  }
+  @keyframes shake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    50%{transform:translateX(6px)}
+    75%{transform:translateX(-6px)}
+    100%{transform:translateX(0)}
+  }
+
+  /* floating paws */
+  .paw{
+    position:fixed;
+    top:-40px;
+    font-size:22px;
+    opacity:0.85;
+    animation: fall linear forwards;
+    pointer-events:none;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(260deg); opacity:0.05; }
+  }
+
+  /* confetti hearts on YES */
+  .heart{
+    position:fixed;
+    font-size:18px;
+    pointer-events:none;
+    animation: pop 900ms ease-out forwards;
+  }
+  @keyframes pop{
+    0%{transform:translateY(0) scale(1); opacity:1}
+    100%{transform:translateY(-140px) scale(1.6); opacity:0}
+  }
+
+  .tiny-note{
+    color:rgba(255,77,166,0.75);
+    font-size:14px;
+    margin-top:10px;
+  }
+</style>
 </head>
+
 <body>
-  <div class="bg"></div>
 
-  <main class="wrap">
-    <header class="topbar">
-      <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
-      <div class="title">valentine@lovebox:~</div>
-    </header>
+<h1>Will you be my Meowentine? 🐱💘</h1>
+<div class="sub">Choose wisely… the cats are watching 👀</div>
 
-    <section class="terminal" aria-label="terminal">
-      <div class="terminal-inner">
-        <div class="line faint"># booting Valentine.exe ...</div>
-        <div id="output"></div>
+<div class="btns">
+  <button id="noBtn" onclick="reject()">NO 🙀</button>
+  <button id="maybeBtn" onclick="maybe()">Let me think 🤔</button>
+  <button id="yesBtn" onclick="accept()">YES PURR 😻</button>
+</div>
 
-        <div class="prompt">
-          <span class="faint">sherry@lovebox</span><span class="faint">:</span><span class="path">~/for_you</span><span class="faint">$</span>
-          <input id="cmd" type="text" autocomplete="off" spellcheck="false" placeholder="type: help" />
-        </div>
+<div class="tiny-note">Tip: try rejecting a few times… 😼</div>
 
-        <div class="buttons">
-          <button id="btnYes">Accept ❤️</button>
-          <button id="btnNo">Reject 🙃</button>
-          <button id="btnSurprise">Run surprise.sh ✨</button>
-        </div>
-      </div>
-    </section>
+<div id="result"></div>
 
-    <footer class="footer">
-      <span class="faint">Tip:</span> try typing <code>love</code>, <code>date</code>, <code>ping</code>, <code>sudo kiss</code> 🙂
-    </footer>
-  </main>
+<script>
+  // Expect these filenames in repo root:
+  // cat1.jpg (reject) / cat2.jpg (maybe) / cat3.jpg (accept)
 
-  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-title">🎁 Surprise Unlocked</div>
-      <p id="modalText"></p>
-      <div class="modal-actions">
-        <button id="modalClose">OKAY I’M BLUSHING</button>
-      </div>
-    </div>
-  </div>
+  const result = document.getElementById("result");
+  const noBtn = document.getElementById("noBtn");
+  const maybeBtn = document.getElementById("maybeBtn");
+  const yesBtn = document.getElementById("yesBtn");
 
-  <script src="script.js"></script>
+  let rejectCount = 0;
+
+  // cute paw rain (light)
+  setInterval(()=>spawnPaw(), 900);
+
+  function show(img, text){
+    result.innerHTML = `
+      <img src="${img}" alt="cat meme">
+      <div class="message">${text}</div>
+    `;
+  }
+
+  function reject(){
+    rejectCount += 1;
+
+    show("cat1.jpg", rejectCount >= 3
+      ? "Still rejecting?! This cat is… disappointed 😾"
+      : "You rejected me?! This cat is judging you 😾");
+
+    // Make "NO" harder: it moves away and shrinks slightly after each reject
+    const x = (Math.random()*220 - 110);
+    const y = (Math.random()*120 - 60);
+    noBtn.style.transform = `translate(${x}px, ${y}px) scale(${Math.max(0.72, 1 - rejectCount*0.08)})`;
+
+    // After 5 rejects, it “gives up” and nudges user to YES
+    if(rejectCount >= 5){
+      noBtn.textContent = "NO (disabled 😿)";
+      noBtn.disabled = true;
+      noBtn.style.opacity = 0.6;
+      yesBtn.style.transform = "scale(1.12)";
+      show("cat1.jpg", "Okay okay… I’ll stop asking. But the YES button is right there 😽👉");
+    }
+  }
+
+  function maybe(){
+    show("cat2.jpg", "Take your time… but this kitty is already in love 💕");
+    maybeBtn.classList.remove("shake");
+    void maybeBtn.offsetWidth; // restart animation
+    maybeBtn.classList.add("shake");
+  }
+
+  function accept(){
+    show("cat3.jpg", "YAYYY 😻💕 Lifetime Cuddle Subscription Activated™");
+    popHearts();
+    yesBtn.style.transform = "scale(1.18)";
+  }
+
+  function spawnPaw(){
+    const paw = document.createElement("div");
+    paw.className = "paw";
+    paw.textContent = "🐾";
+    paw.style.left = Math.random()*100 + "vw";
+    paw.style.animationDuration = (4 + Math.random()*4) + "s";
+    paw.style.opacity = (0.25 + Math.random()*0.6).toFixed(2);
+    document.body.appendChild(paw);
+    setTimeout(()=>paw.remove(), 9000);
+  }
+
+  function popHearts(){
+    const hearts = ["💖","💗","💘","💕","💞"];
+    for(let i=0;i<24;i++){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      h.style.left = (10 + Math.random()*80) + "vw";
+      h.style.top = (60 + Math.random()*30) + "vh";
+      h.style.animationDelay = (Math.random()*120) + "ms";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 1200);
+    }
+  }
+</script>
+
 </body>
 </html>
